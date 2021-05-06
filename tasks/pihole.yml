@@ -1,0 +1,59 @@
+---
+- name: create pihole group
+  become: True
+  group:
+    name: pihole
+    state: present
+
+- name: create pihole user
+  become: True
+  user:
+    name: pihole
+    group: pihole
+    groups: pihole,www-data
+    comment: "ad filtering DNS proxy"
+    system: True
+    shell: "/usr/sbin/nologin"
+    state: present
+
+- name: create pihole configuration directory
+  become: True
+  file:
+    name: /etc/pihole
+    state: directory
+    owner: pihole
+    group: pihole
+    mode: 0755
+
+- name: "Download Pi-Hole Installer"
+  get_url:
+    url: https://install.pi-hole.net
+    dest: /tmp/install-pihole.sh
+    mode: 0740
+
+- name: Create pihole configuration
+  become: True
+  template:
+    src="setupVars.conf.j2"
+    dest="/etc/pihole/setupVars.conf"
+    owner=root
+    group=root
+    mode=0644
+  tags: pihole
+
+- name: Install Pi-Hole
+  shell: "/tmp/install-pihole.sh --unattended"
+  register: dbg_install_pihole
+  tags: pihole
+
+- name: 'Reboot'
+  # FIXME: Can we make the reboot conditional, on whether this is a
+  # fresh PiHole install or not?
+  become: True
+  shell: sleep 2 && reboot
+  async: 1
+  poll: 0
+  ignore_errors: true
+  tags: pihole
+
+# FIXME: Do we need to setup crontab updates for the PiHole ad data?

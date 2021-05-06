@@ -9,3 +9,32 @@ reproducible setup, that can be quickly put onto a newly flashed RPi
 OS.
 
 This repository aims to automate this configuration.
+
+* Setup to bootstrap this repo
+
+** Install Ansible on host
+
+Something like this should work, for installing ~ansible~
+
+#+begin_src sh
+  pip install --user ansible
+#+end_src
+
+** Setup ~/etc/hosts~ on host
+
+Add an entry to point to the Raspberry Pi IP address to the
+~/etc/hosts~ file.
+
+#+begin_src text
+  192.168.0.127 rpi.local
+#+end_src
+
+** Setup SSH keys
+
+Set up password-less SSH login. See this document for [[https://docs.ansible.com/ansible/latest/user_guide/connection_details.html#setting-up-ssh-keys][help]], if required.
+
+* Run the playbook!
+
+#+begin_src sh
+  ansible-playbook -i hosts playbook.yml
+#+end_src

@@ -1,0 +1,13 @@
+#!/usr/bin/env ansible-playbook -i hosts --become -c paramiko
+---
+
+
+- name: Ansible Playbook for reproducibly configuring my Raspberry Pi
+  hosts: webservers
+  # roles:
+  #   - pi
+  remote_user: pi
+
+  tasks:
+    - name: Setup Pi Hole
+      include: tasks/pihole.yml
