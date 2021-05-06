@@ -1,0 +1,11 @@
+#+STARTUP: indent
+#+TITLE: Ansible scripts to reproducibly setup Raspberry Pi
+
+* Motivation
+
+My Pi's SDCard went bust, and doesn't let it boot.  I could probably
+salvage it, and try to get it to work. But, I'd rather have a
+reproducible setup, that can be quickly put onto a newly flashed RPi
+OS.
+
+This repository aims to automate this configuration.
