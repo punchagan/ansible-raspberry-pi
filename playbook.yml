@@ -11,3 +11,5 @@
   tasks:
     - name: Setup Pi Hole
       include: tasks/pihole.yml
+    - name: Setup Git Config
+      include: tasks/git.yml

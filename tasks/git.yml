@@ -1,0 +1,12 @@
+- name: Add name to ~/.gitconfig
+  community.general.git_config:
+    name: user.email
+    scope: global
+    value: "Puneeth Chaganti"
+
+- name: Add email to ~/.gitconfig
+  community.general.git_config:
+    name: user.email
+    scope: global
+    value: "punchagan@muse-amuse.in"
+
