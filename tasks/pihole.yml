@@ -4,6 +4,7 @@
   group:
     name: pihole
     state: present
+  register: pihole_group
 
 - name: create pihole user
   become: True
@@ -15,6 +16,7 @@
     system: True
     shell: "/usr/sbin/nologin"
     state: present
+  when: pihole_group is changed
 
 - name: create pihole configuration directory
   become: True
@@ -24,12 +26,14 @@
     owner: pihole
     group: pihole
     mode: 0755
+  when: pihole_group is changed
 
 - name: "Download Pi-Hole Installer"
   get_url:
     url: https://install.pi-hole.net
     dest: /tmp/install-pihole.sh
     mode: 0740
+  when: pihole_group is changed
 
 - name: Create pihole configuration
   become: True
@@ -40,10 +44,12 @@
     group=root
     mode=0644
   tags: pihole
+  when: pihole_group is changed
 
 - name: Install Pi-Hole
   shell: "/tmp/install-pihole.sh --unattended"
   register: dbg_install_pihole
   tags: pihole
+  when: pihole_group is changed
 
 # FIXME: Do we need to setup crontab updates for the PiHole ad data?
