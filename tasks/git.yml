@@ -10,3 +10,10 @@
     scope: global
     value: "punchagan@muse-amuse.in"
 
+- name: generate SSH key
+  openssh_keypair:
+    path: "~/.ssh/id_rsa"
+    type: rsa
+    size: 4096
+    state: present
+    force: no
