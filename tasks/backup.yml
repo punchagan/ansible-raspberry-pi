@@ -5,6 +5,7 @@
       - exfat-fuse
       - ntfs-3g
       - lsof  # Useful to see what's using the disk, when trying to unmount
+      - adb
     update_cache: yes
 
 - name: Create mount point for backup disk
@@ -22,3 +23,38 @@
     # x-systemd.device-timeout=15 Don't wait too long to mount while booting
     opts: defaults,auto,users,rw,nofail,umask=000,x-systemd.device-timeout=15
     state: present
+
+- name: Create mount point
+  file:
+    path: /home/pi/code/
+    state: directory
+
+- name: Clone sync-rpi repo
+  git:
+    repo: git@github.com:punchagan/sync-rpi.git
+    dest: /home/pi/code/sync-rpi
+    version: main
+    accept_hostkey: yes
+    key_file: /home/pi/.ssh/id_rsa
+
+- name: Clone adb-sync repo
+  git:
+    repo: git@github.com:google/adb-sync.git
+    dest: /home/pi/code/adb-sync
+    version: master
+    accept_hostkey: yes
+    key_file: /home/pi/.ssh/id_rsa
+
+- name: Create symbolic link to adb-sync in /usr/local/bin
+  become: True
+  file:
+    src: "/home/pi/code/adb-sync/adb-sync"
+    dest: "/usr/local/bin/adb-sync"
+    state: link
+
+- name: Ensure phone backup runs every 4 hours
+  ansible.builtin.cron:
+    name: "sync phone"
+    minute: "15"
+    hour: "*/4"
+    job: "/home/pi/code/sync-rpi/phone.sh > /home/pi/code/sync-rpi/logs.txt"
