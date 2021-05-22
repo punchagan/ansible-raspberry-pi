@@ -4,6 +4,7 @@
     name:
       - exfat-fuse
       - ntfs-3g
+      - lsof  # Useful to see what's using the disk, when trying to unmount
     update_cache: yes
 
 - name: Create mount point for backup disk
