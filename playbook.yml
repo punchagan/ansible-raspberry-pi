@@ -13,3 +13,5 @@
       include: tasks/pihole.yml
     - name: Setup Git Config
       include: tasks/git.yml
+    - name: Setup Backup HDD and other backup scripts
+      include: tasks/backup.yml

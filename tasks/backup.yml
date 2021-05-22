@@ -1,0 +1,23 @@
+- name: Install some packages for mounting drive, etc.
+  become: True
+  apt:
+    name:
+      - exfat-fuse
+      - ntfs-3g
+    update_cache: yes
+
+- name: Create mount point for backup disk
+  become: True
+  file:
+    path: /mnt/backup-drive
+    state: directory
+
+- name: Mount up backup disk by UUID
+  become: True
+  ansible.posix.mount:
+    path: /mnt/backup-drive
+    src: UUID="5E51-4654"
+    fstype: exfat
+    # x-systemd.device-timeout=15 Don't wait too long to mount while booting
+    opts: defaults,auto,users,rw,nofail,umask=000,x-systemd.device-timeout=15
+    state: present
