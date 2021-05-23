@@ -9,6 +9,8 @@
   remote_user: pi
 
   tasks:
+    - name: General Setup
+      include: tasks/general.yml
     - name: Setup Pi Hole
       include: tasks/pihole.yml
     - name: Setup Git Config
