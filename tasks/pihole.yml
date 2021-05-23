@@ -51,5 +51,3 @@
   register: dbg_install_pihole
   tags: pihole
   when: pihole_group is changed
-
-# FIXME: Do we need to setup crontab updates for the PiHole ad data?
