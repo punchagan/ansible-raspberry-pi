@@ -51,6 +51,7 @@
     minute: "15"
     hour: "*/4"
     # FIXME: These URLs would change on each new setup of healthchecks.  This
-    # would need to be changed manually.  One idea could be to backup the
-    # healtchecks sqlite DB and restore it, to avoid changes, each time!
+    # would need to be changed manually.  One idea could be to put the sqlite
+    # DB on the backup disk, and use it from there. If that drive is mounted,
+    # we are always running the manually setup version of the DB.
     job: "/home/pi/code/sync-rpi/phone.sh > /home/pi/code/sync-rpi/logs.txt && curl -fsS --retry 5 -o /dev/null http://localhost:8000/ping/5e8b989c-3a69-41fc-b59e-5ce4abd984fb"
