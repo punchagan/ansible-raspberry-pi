@@ -3,3 +3,24 @@
     name: PATH
     env: yes
     job: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/games:/usr/games:/snap/bin
+
+# Setup for Cron job monitoring using Healthchecks!
+
+- name: Clone healthchecks repo
+  git:
+    repo: git@github.com:healthchecks/healthchecks.git
+    dest: /home/pi/code/healthchecks
+    version: master
+    accept_hostkey: yes
+    key_file: /home/pi/.ssh/id_rsa
+
+- name: Install healthchecks requirements
+  pip:
+    requirements: /home/pi/code/healthchecks/requirements.txt
+    virtualenv: /home/pi/.virtualenvs/healthchecks
+    virtualenv_command: /usr/bin/python3 -m venv
+
+- name: Run healthchecks migrate command
+  ansible.builtin.command: /home/pi/.virtualenvs/healthchecks/bin/python /home/pi/code/healthchecks/manage.py migrate
+
+# FIXME: Setup healthecks as a service to run on reboots!

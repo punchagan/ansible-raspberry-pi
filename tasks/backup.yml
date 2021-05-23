@@ -56,4 +56,5 @@
     name: "sync phone"
     minute: "15"
     hour: "*/4"
-    job: "/home/pi/code/sync-rpi/phone.sh > /home/pi/code/sync-rpi/logs.txt"
+    # FIXME: These URLs would change on each setup. This would need to be changed manually.
+    job: "/home/pi/code/sync-rpi/phone.sh > /home/pi/code/sync-rpi/logs.txt && curl -fsS --retry 5 -o /dev/null http://localhost:8000/ping/5e8b989c-3a69-41fc-b59e-5ce4abd984fb"
