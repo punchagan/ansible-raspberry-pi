@@ -6,7 +6,6 @@
       - ntfs-3g
       - lsof  # Useful to see what's using the disk, when trying to unmount
       - adb
-    update_cache: yes
 
 - name: Create mount point for backup disk
   become: True
