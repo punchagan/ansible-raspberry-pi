@@ -4,4 +4,5 @@
     name:
       - silversearcher-ag
       - vim
+      - tmux
     update_cache: yes
