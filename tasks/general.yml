@@ -1,0 +1,7 @@
+- name: Install some general packages for working on the pi
+  become: True
+  apt:
+    name:
+      - silversearcher-ag
+      - vim
+    update_cache: yes
