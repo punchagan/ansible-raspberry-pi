@@ -1,0 +1,13 @@
+[Unit]
+Description=Healthchecks server
+After=syslog.target
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+ExecStart=/home/pi/.virtualenvs/healthchecks/bin/python manage.py runserver 0.0.0.0:8000
+User=pi
+Group=pi
+WorkingDirectory=/home/pi/code/healthchecks
+Restart=always

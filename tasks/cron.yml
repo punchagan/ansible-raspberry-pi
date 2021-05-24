@@ -23,7 +23,24 @@
 - name: Run healthchecks migrate command
   ansible.builtin.command: /home/pi/.virtualenvs/healthchecks/bin/python /home/pi/code/healthchecks/manage.py migrate
 
-# FIXME: Setup healthecks as a service to run on reboots!
-# https://jb-blog.readthedocs.io/en/latest/posts/0029-deploy-django-app-v2.html
-# Explains uwsgi + nginx setup. But, it might be a pain to set this up with
-# lighttpd that RPi already sets-up. Probably just fire runserver using systemd?
+- name: Install healthchecks requirements for 'deployment'
+  pip:
+    name: uwsgi
+    virtualenv: /home/pi/.virtualenvs/healthchecks
+
+- name: Setup the systemd service
+  become: True
+  copy:
+    # NOTE: We just run runserver, without setting up uwsgi, since we setting
+    # up a http server for serving static files is a pain.
+    src: healthchecks.service
+    dest: /etc/systemd/system
+    owner: root
+    group: root
+
+- name: Start healthchecks server
+  become: True
+  systemd:
+    name: healthchecks
+    state: reloaded
+    enabled: yes
