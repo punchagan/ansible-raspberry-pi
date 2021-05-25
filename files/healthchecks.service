@@ -6,7 +6,7 @@ After=syslog.target
 WantedBy=multi-user.target
 
 [Service]
-ExecStart=/home/pi/.virtualenvs/healthchecks/bin/uwsgi --http :8000 --module hc.wsgi:application --check-static /home/pi/code/healthchecks/
+ExecStart=/home/pi/.virtualenvs/healthchecks/bin/uwsgi --http :8000 --module hc.wsgi:application --static-map /static=/home/pi/code/healthchecks/static-collected
 User=pi
 Group=pi
 WorkingDirectory=/home/pi/code/healthchecks

@@ -20,13 +20,16 @@
     virtualenv: /home/pi/.virtualenvs/healthchecks
     virtualenv_command: /usr/bin/python3 -m venv
 
-- name: Run healthchecks migrate command
-  ansible.builtin.command: /home/pi/.virtualenvs/healthchecks/bin/python /home/pi/code/healthchecks/manage.py migrate
-
 - name: Install healthchecks requirements for 'deployment'
   pip:
     name: uwsgi
     virtualenv: /home/pi/.virtualenvs/healthchecks
+
+- name: Run healthchecks migrate command
+  ansible.builtin.command: /home/pi/.virtualenvs/healthchecks/bin/python /home/pi/code/healthchecks/manage.py migrate
+
+- name: Collect staticfiles
+  ansible.builtin.command: /home/pi/.virtualenvs/healthchecks/bin/python /home/pi/code/healthchecks/manage.py collectstatic
 
 - name: Setup the systemd service
   become: True
