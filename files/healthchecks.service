@@ -6,7 +6,7 @@ After=syslog.target
 WantedBy=multi-user.target
 
 [Service]
-ExecStart=/home/pi/.virtualenvs/healthchecks/bin/python manage.py runserver 0.0.0.0:8000
+ExecStart=/home/pi/.virtualenvs/healthchecks/bin/uwsgi --http :8000 --module hc.wsgi:application --check-static /home/pi/code/healthchecks/
 User=pi
 Group=pi
 WorkingDirectory=/home/pi/code/healthchecks

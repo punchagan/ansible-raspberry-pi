@@ -31,8 +31,6 @@
 - name: Setup the systemd service
   become: True
   copy:
-    # NOTE: We just run runserver, without setting up uwsgi, since we setting
-    # up a http server for serving static files is a pain.
     src: healthchecks.service
     dest: /etc/systemd/system
     owner: root
@@ -42,5 +40,6 @@
   become: True
   systemd:
     name: healthchecks
-    state: reloaded
+    state: restarted
+    daemon_reload: true
     enabled: yes
