@@ -5,4 +5,5 @@
       - silversearcher-ag
       - vim
       - tmux
+      - mosh
     update_cache: yes
