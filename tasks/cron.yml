@@ -39,7 +39,7 @@
 - name: Compress staticfiles
   ansible.builtin.command: /home/pi/.virtualenvs/healthchecks/bin/python /home/pi/code/healthchecks/manage.py compress
 
-- name: Setup the systemd server service
+- name: Setup healthchecks server in systemd
   become: True
   template:
     src: healthchecks.service
@@ -51,6 +51,22 @@
   become: True
   systemd:
     name: healthchecks
+    state: restarted
+    daemon_reload: true
+    enabled: yes
+
+- name: Setup healthchecks alerts service in systemd
+  become: True
+  template:
+    src: healthchecks-alerts.service
+    dest: /etc/systemd/system
+    owner: root
+    group: root
+
+- name: Start healthchecks alerts service
+  become: True
+  systemd:
+    name: healthchecks-alerts
     state: restarted
     daemon_reload: true
     enabled: yes
