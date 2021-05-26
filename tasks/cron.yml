@@ -39,9 +39,9 @@
 - name: Compress staticfiles
   ansible.builtin.command: /home/pi/.virtualenvs/healthchecks/bin/python /home/pi/code/healthchecks/manage.py compress
 
-- name: Setup the systemd service
+- name: Setup the systemd server service
   become: True
-  copy:
+  template:
     src: healthchecks.service
     dest: /etc/systemd/system
     owner: root
