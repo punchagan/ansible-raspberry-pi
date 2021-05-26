@@ -25,6 +25,11 @@
     name: uwsgi
     virtualenv: /home/pi/.virtualenvs/healthchecks
 
+- name: Create the local_settings file
+  template:
+    src: "hc_local_settings.py"
+    dest: "/home/pi/code/healthchecks/hc/local_settings.py"
+
 - name: Run healthchecks migrate command
   ansible.builtin.command: /home/pi/.virtualenvs/healthchecks/bin/python /home/pi/code/healthchecks/manage.py migrate
 
@@ -41,11 +46,6 @@
     dest: /etc/systemd/system
     owner: root
     group: root
-
-- name: Create the local_settings file
-  template:
-    src: "hc_local_settings.py"
-    dest: "/home/pi/code/healthchecks/hc/local_settings.py"
 
 - name: Start healthchecks server
   become: True
