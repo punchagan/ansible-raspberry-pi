@@ -24,3 +24,5 @@ DATABASES = {
     }
 }
 SITE_NAME = "Raspberry Pi HealthChecks Server"
+SITE_ROOT = "http://raspberrypi.local:8000"
+PING_ENDPOINT = "http://raspberrypi.local:8000/ping/"
