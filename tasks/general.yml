@@ -6,4 +6,5 @@
       - vim
       - tmux
       - mosh
+      - mpv
     update_cache: yes
