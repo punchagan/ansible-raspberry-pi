@@ -1,0 +1,22 @@
+# Setup TIKS website updater using instagram scraper
+
+- name: Clone the TIKS website repo
+  git:
+    repo: git@github.com:thatte-idli-kaal-soup/tiks-ultimate.in.git
+    dest: /home/pi/code/tiks-ultimate.in
+    version: master
+    accept_hostkey: yes
+    key_file: /home/pi/.ssh/id_rsa
+
+- name: Install instagramscraper requirements
+  pip:
+    requirements: /home/pi/code/tiks-ultimate.in/requirements.txt
+    virtualenv: /home/pi/.virtualenvs/tiks-ultimate
+    virtualenv_command: /usr/bin/python3 -m venv
+
+- name: Run Instagram scraper
+  ansible.builtin.cron:
+    name: "instagram-scraper"
+    minute: "12"
+    hour: "*/12"
+    job: "/home/pi/code/tiks-ultimate.in/instagram-scrape.sh --media-metadata --media-types='none' -d content tiks_ultimate && curl -fsS --retry 5 -o /dev/null http://localhost:8000/ping/870b5f0e-071d-4aca-9ae3-a9c89fa0b7aa"

@@ -19,3 +19,5 @@
       include: tasks/git.yml
     - name: Setup Backup HDD and other backup scripts
       include: tasks/backup.yml
+    - name: Setup TIKS related tasks
+      include: tasks/tiks.yml
