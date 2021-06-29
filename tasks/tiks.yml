@@ -18,5 +18,10 @@
   ansible.builtin.cron:
     name: "instagram-scraper"
     minute: "12"
-    hour: "*/12"
+    hour: "12"
+    # Only run on 3 days a week, on the day after a practice day.
+    dow: "0,3,5"
+    # NOTE: We run the scraper on the Pi, because running it on GitHub actions
+    # seem to get us blocked pretty soon, even if we do it as an authenticated
+    # user. Running the scraper from a residential network seems to work better.
     job: "/home/pi/code/tiks-ultimate.in/instagram-scrape.sh --media-metadata --media-types='none' -d content tiks_ultimate && curl -fsS --retry 5 -o /dev/null http://localhost:8000/ping/870b5f0e-071d-4aca-9ae3-a9c89fa0b7aa"
